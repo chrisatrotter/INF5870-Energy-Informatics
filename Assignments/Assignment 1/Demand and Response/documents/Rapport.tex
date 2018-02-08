@@ -4,8 +4,16 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Defintion}
+
 \lstset{language=Python}          % Set your language (you can change the language for each code-block optionally)
 
+\usepackage[backend=biber,style=numeric,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+
+\addbibresource{References.bib} % The filename of the bibliography
 
 \title{INF5870 - First Mandatory Assignment}
 \author{Zahra G. Yndestad \\ Khalil Abuawad \\ Marius E. G. Andresen \\ Christopher A. Trotter}
@@ -16,9 +24,18 @@
 \maketitle
 
 \section{Question 1}
-	As the question can conclude into multiple examples leading to the same optimal minimum, depending on the assumptions made, we have decided to give a time frame for when these shiftable appliances can run by trying to cover all possible cases and giving an argument for the edge cases. Since all of the mentioned appliances for the home are shiftable, the mention of a setup time and deadline would be redundant. We will rather assume that the total runtime of each appliance is less than 20 hours. Giving us that each appliance can be completed within the off-peak hours. Also, in the assignment it is only provided the daily cost of these various appliances, but not the cost within a time span such as for example the light bulb. Allowing us to suggest any time span that meets the daily consumption by respecting the constraint above.  As a condition, each of the appliance has to have their runtime outside the peak hours to achieve the optimal minimum. Any example which provides the optimal minimum will have to respect this condition, regardless of the strategy. If these strategies are reasonable is what we will further discuss.
-
+	Since the question can derive multiple examples that lead to the same optimal minimum, depending on the assumptions made, we have decided to give a time frame for when these shiftable appliances can run and attempting to cover all possible cases. Since all of the mentioned appliances for the home are shiftable, then having a setup time and deadline would be redundant. We will rather assume that the total runtime of each appliance is less than 20 hours. Giving us that each appliance can be completed within the off-peak hours. Also, in the assignment the daily costs are provided for these various appliances differing from appliances with a cost within a time span such as the light bulb. Allowing us to suggest any time span that meets the daily consumption.  As a condition, each of the appliances has to have their runtime outside the peak hours to achieve the optimal minimum. Any example which provides the optimal minimum will have to respect this condition, regardless of the strategy. We will provide a general definition of a strategy, then discuss what is a reasonable strategy.
+	
+	\begin{definition}
+    	A strategy is a high level plan to achieve one or more goals under conditions of uncertainty{\cite{wikistrategy}}. 
+	\end{definition}
+	
+	From our assumptions above, we can assume our strategy is trivial in the sense that all the appliances can be run in the off-peak hours. Secondly, all strategies can be viewed from a spectre where all appliances are running at the same point in time, centralized, to running sequentially in some order, distributed. From these different perspectives of strategies, we can now discuss what is a reasonable strategy taking into consideration to general issues of Demand and Response.
+    
+    
     \textbf{Notes:} There will be two different perspectives of strategies to consider which are centralized or distributed. These are what will be described in the next part.
 
-
+    
+    
+    \printbibliography[heading=bibintoc]
 \end{document}
