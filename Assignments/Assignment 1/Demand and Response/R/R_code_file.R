@@ -1,15 +1,19 @@
-
 # Question 1
 # What strategy to adopt.
 
-peak_hour <- c(5:8)
+peak_hour <- c(17:20)
 time_frame <- c(1:24)
 peak_price <- 1
-off_peal_price <- 0.5
+off_peak_price <- 0.5
+
+daily_rates <- data.frame( time_frame )
+daily_rates$cost <- mapply( daily_rates$time_frame, FUN=function(x) if( x %in% peak_hour ) peak_price else off_peak_price )
+names( daily_rates ) <- c( "time", "cost" )
 
 appliances_names <- c("Washing machine", "Electrical Vehicle", "Diswasher")
 appliances_costs <- c(1.94, 9.9, 1.44)
 appliances <- data.frame( appliances_names, appliances_costs )
-names( appliances ) <- c( "Appliances", "Energy cost" )
+names( appliances ) <- c( "Appliances", "Kwh" )
 
-daily_rates <- data.frame()
+minimum_cost <- min( mapply( daily_rates$time , sum(appliances$Kwh), FUN=function(time, kwh) daily_rates[time, 2] * kwh ))
+minimum_cost
