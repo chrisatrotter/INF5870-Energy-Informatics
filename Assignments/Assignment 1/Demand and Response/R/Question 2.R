@@ -1,14 +1,19 @@
-# Question 1
-# What strategy to adopt.
+# Question 2
 
-peak_hour <- c(17:20)
+setwd(getwd())
+directory <- 'data/'
+filename <- 'appliances.csv'
 time_frame <- c(1:24)
 peak_price <- 1
 off_peak_price <- 0.5
 
+appliances <- read.csv2( paste(directory, filename, sep="") )
+appliances
+
+
 daily_rates <- data.frame( time_frame )
-daily_rates$cost <- mapply( daily_rates$time_frame, FUN=function(x) if( x %in% peak_hour ) peak_price else off_peak_price )
-names( daily_rates ) <- c( "time", "cost" )
+#daily_rates$cost <- mapply( daily_rates$time_frame, FUN=function(x) if( x %in% peak_hour ) peak_price else off_peak_price )
+#names( daily_rates ) <- c( "time", "cost" )
 
 #appliances name
 appliances_names_random <- c("coffee maker", "ceiling fan", "hair dryer", "toaster", "microwave", "router", "cellphone charger", "cloth iron")
