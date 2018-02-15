@@ -1,5 +1,7 @@
 # Question 1
 # What strategy to adopt.
+# A centralized strategy of appliances all running within 1 hour time span.
+# *Not very realistic, but no limitations have been set to prevent this kind of assumptions.*
 
 peak_hour <- c(17:20)
 time_frame <- c(1:24)
