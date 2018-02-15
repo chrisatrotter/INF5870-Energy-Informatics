@@ -15,6 +15,9 @@ appliances_names_shiftable <- c("Washing machine", "Electrical Vehicle", "Diswas
 appliances_names_nonshiftable <- c("Lighting", "Heating", "Refrigerator-freezer", "Electric stove", "TV","Computer")
 appliances_costs_shiftable <- c(1.94, 9.9, 1.44, 2.5)
 appliances_costs_nonshiftable <- c(runif(1, min=1, max=2), runif(1, min=6.4, max=9.6), runif(1, min=1.32, max=3.96), 3.9, runif(1, min=0.15, max=0.6), 0.6)
+appliances_costs_random <- c(0.08, 0.0075, 0.0250, 0.0240, 0.0600, 0.0006, 0.0005, 0.0275)
+appliances_runtime_random <- c(1,3,1,1,1,24,3,1)
+appliances_runtime_shiftable <- c(1, 4, 1, 1)
 appliances <- data.frame( appliances_names, appliances_costs )
 names( appliances ) <- c( "Appliances", "Kwh" )
 
