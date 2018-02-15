@@ -1,11 +1,11 @@
-Appliance;Daily Usage;Hourly Usage;Earliest;Latest
-Lighting;2;0,2;10;19
-Heating;9,6;0,4;1;24
-Refrigerator;3,96;0,165;1;24
-Electric Stove;3,9;3,9;18;18
-TV;0,6;0,12;17;21
-Computer;0,6;0,2;19;21
-Dishwasher;1,44;1;19;24
-Laundry Machine;1,94;0,5;17;24
-Cloth Dryer;2,5;1,5;17;24
-Electric Vehicle;9,9;3;1;8
+Appliances,Daily Usage,Hourly Usage,Earliest,Latest
+Lighting,2,0.2,10,19
+Heating,9.6,0.4,1,24
+Refrigerator,3.96,0.165,1,24
+Electric Stove,3.9,3.9,18,18
+TV,0.6,0.12,17,21
+Computer,0.6,0.2,19,21
+Dishwasher,1.44,1,19,24
+Laundry Machine,1.94,0.5,17,24
+Cloth Dryer,2.5,1.5,17,24
+Electric Vehicle,9.9,3,1,8
