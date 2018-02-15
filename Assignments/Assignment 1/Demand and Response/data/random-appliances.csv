@@ -1,0 +1,9 @@
+Appliances,Daily Usage,Hourly Usage,Earliest,Latest
+coffee maker,"0,26","0,78",6,10
+ceiling fan,"0,22","0,073",22,24
+hair dryer,"0,25","1,5",6,10
+toaster,"0,24","1,2",6,10
+microwave,"0,6","1,2",17,24
+router,"0,24","0,01",1,24
+cellphone charger,"0,03","0,01",1,8
+cloth iron,"0,28","1,1",17,19
