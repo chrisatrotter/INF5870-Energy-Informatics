@@ -27,8 +27,7 @@ Appliances with strict consumption scheduling (non-shiftable appliances) in each
 - Lighting: (daily usage for standard bulbs: 1.00-2.00 kWh from 10:00 - 20:00),
 - Heating: (daily usage: 6.4-9.6 kWh including floor heating)
 - Refrigerator- freezer (daily usage: 1.32-3.96 kWh, depending on the number of
-refrigerators in the house; Consumption for 1 refrigerator including freezer=1.32
-KWh),
+  refrigerators in the house; Consumption for 1 refrigerator including freezer=1.32 KWh)
 - Electric stove (daily usage: 3.9 kWh)
 - TV: (daily usage: 0.15-0.6 KWh depending on the TV size @ 5hours of use per day)
 - Computer including desktop(s), laptop(s) (Number: 1-3; daily 0.6KWh per day per computer)
@@ -50,10 +49,12 @@ and a dishwasher. We assume the time-of-Use (ToU) pricing scheme: 1NOK/KWh for
 peak hour and 0.5NOK/KWh for off-peak hours. Peak hours are in the range of 5:00pm8:00pm
 while all other timeslots are off-peak hours. Design the strategy to use these
 appliances to have minimum energy cost.
+
 Note: We need a strategy, not just the amount of the minimal energy cost. For example,
 you may need to consider some exemplary questions. Is it reasonable to use all three
 appliances at the same time, e.g., 2:00am which has the low energy price? How should
 we distribute the power load more reasonably in the timeline?
+
 
 2. We have a household with all non-shiftable appliances and all shiftable appliances (see
 the two lists aforementioned). In addition to these, please choose a random combination
@@ -64,6 +65,8 @@ Pricing (RTP) scheme. The RTP model is followed: using a random function to gene
 the pricing curve in a day. The pricing curve should consider higher price in the peakhours
 and lower price in the off-peak hours. Compute the best strategy to schedule the
 use of the appliances and write a program in order to minimize energy cost.
+
+
 3. We consider a small neighborhood that has 30 households. Each household has the same
 setting as that in question 2. But, we assume that only a fraction of the households owns
 an EV. Please use Real-Time Pricing (RTP) scheme: using random function to generate the
@@ -90,8 +93,8 @@ cost
 # Delivery of the Assignment
 Assignment 1 is to be sent to the following email
 Email: yanzhang@ifi.uio.no and hweiminc@ifi.uio.no
-Submission form: the submission should be in a ZIP file with naming convention “INF5870-
-Assignment1 - GroupX.zip", where “X” is the group number.
+Submission form: the submission should be in a ZIP file with naming convention 
+“INF5870-Assignment1 - GroupX.zip", where “X” is the group number.
 Email subject: “[INF5870] Assignment 1 submission by Group X”
 Firm deadline: 20 March 2018 (whole day included)
 Questions? please contact HweiMing Chung. Email: hweiminc@ifi.uio.no; office: 4161
