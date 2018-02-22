@@ -30,11 +30,9 @@ f.obj = rep(daily_rates$cost, a_length)
 # Create a matrix with constraints
 constraints <- matrix(0, a_length+(a_length*24), a_length*24)
 for(i in 1:a_length) {
-  for(y in 1:24) {
-    if (y >= appliances$Earliest[i] && y <= appliances$Latest[i]) {
-      constraints[i, ((i-1)*24)+y] <- 1
-      constraints[((i-1)*24)+a_length+y, ((i-1)*24)+y] <- 1
-    }
+  for(y in appliances$Earliest[i]:appliances$Latest[i]) {
+    constraints[i, ((i-1)*24)+y] <- 1
+    constraints[((i-1)*24)+a_length+y, ((i-1)*24)+y] <- 1
   }
 }
 
@@ -55,11 +53,6 @@ for (i in 1:a_length) {
 
 # Add matrix with usage
 f.rhs <- matrix(usage, nrow=length(usage), byrow=TRUE)
-
-length(rep(daily_rates$cost, a_length))
-dim(constraints)
-length(c(rep("=", a_length),rep("<=", a_length*24)))
-length(usage)
 
 # Run lp
 lp ("min", f.obj, f.con, f.dir, f.rhs)
