@@ -1,12 +1,12 @@
 ﻿# INF5870-Energy-Informatics
 
-#Course content
+# Course content
 Energy informatics exploits the state-of-the-art ICT (information and communication technology) to tackle the global warming and
 climate change challenges. The scope of energy informatics includes computing and communications technologies and their applications
 for sustainable energy sectors - e.g., smart grid, solar, electric vehicles, and storage. This course lay the foundations to
 understand where and how computer engineering techniques apply in the energy systems.
 
-#Learning outcome
+# Learning outcome
 After this course you have:
 
  - knowledge about different energy systems - e.g., smart grid, electric vehicles, vehicle-to-grid, storage, transport, buildings
@@ -19,7 +19,7 @@ data, game theory, optimization, apply for future sustainable energy systems
 storage and electric vehicles
  - met invited speakers from industry and understand the good connection between principles and their applications in real systems
 
-#Teaching
+# Teaching
 This course has lectures, seminars, invited talks from both industry and other universities/institutes, group work, assignments. Specifically, we have
 
  - seminars, 3 hours per week
@@ -31,15 +31,15 @@ This course has lectures, seminars, invited talks from both industry and other u
 
 The first lecture is mandatory.
 
-#Examination
+# Examination
 Oral examination that counts 60 % of the grade, Project assignments counting 20%; presentation counting 20% . All mandatory assignments have to be
 accepted in order to take the exam. All parts must be passed and all parts must be passed in the same semester.
 
-#Examination support material
+# Examination support material
 No examination support material is allowed.
 
-#Language of examination
+# Language of examination
 The examination text is given in English, and you submit your response in English.
 
-#Grading scale
+# Grading scale
 Grades are awarded on a scale from A to F, where A is the best grade and F is a fail. Read more about the grading system.
