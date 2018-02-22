@@ -5,7 +5,7 @@ library(lpSolveAPI)
 setwd(getwd())
 directory <- 'data/'
 appliance_file <- 'appliances.csv'
-random_appliance_file <- 'random-appliances.csv'
+random_appliance_file <- 'random_appliances.csv'
 time_frame <- c(1:24)
 peak_hour <- c(17:20)
 
@@ -19,13 +19,6 @@ appliances <- rbind(appliances, random_appliance[sample(1:nrow(random_appliance)
 
 # Number of appliances
 a_length <- length(appliances$Appliances)
-
-appliances$Daily.Usage <- as.numeric(as.character(appliances$Daily.Usage))
-appliances$Hourly.Usage <- as.numeric(as.character(appliances$Hourly.Usage))
-appliances$Earliest <- as.numeric(as.character(appliances$Earliest))
-appliances$Latest <- as.numeric(as.character(appliances$Latest))
-
-typeof(appliances$Daily.Usage[1])
 
 # Create a matrix with RTP for a day
 daily_rates <- data.frame( time_frame, RTP )
