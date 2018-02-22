@@ -20,6 +20,13 @@ appliances <- rbind(appliances, random_appliance[sample(1:nrow(random_appliance)
 # Number of appliances
 a_length <- length(appliances$Appliances)
 
+appliances$Daily.Usage <- as.numeric(as.character(appliances$Daily.Usage))
+appliances$Hourly.Usage <- as.numeric(as.character(appliances$Hourly.Usage))
+appliances$Earliest <- as.numeric(as.character(appliances$Earliest))
+appliances$Latest <- as.numeric(as.character(appliances$Latest))
+
+typeof(appliances$Daily.Usage[1])
+
 # Create a matrix with RTP for a day
 daily_rates <- data.frame( time_frame, RTP )
 names( daily_rates ) <- c( "time", "cost" )
@@ -28,17 +35,38 @@ names( daily_rates ) <- c( "time", "cost" )
 f.obj = rep(daily_rates$cost, a_length)
 
 # Create a matrix with constraints
-constraints <- matrix(0, a_length, a_length*24)
+constraints <- matrix(0, a_length+(a_length*24), a_length*24)
 for(i in 1:a_length) {
-  for(y in appliances$Earliest[i]:appliances$Latest[i]) {
+  for(y in 1:24) {
+    if (y >= appliances$Earliest[i] && y <= appliances$Latest[i]) {
       constraints[i, ((i-1)*24)+y] <- 1
+      constraints[((i-1)*24)+a_length+y, ((i-1)*24)+y] <- 1
+    }
   }
 }
 
+# Add matrix with constraints
+f.con <- constraints
+
+# Add operator
+f.dir <- c(rep("=", a_length),rep("<=", a_length*24))
+
+# Create list with daily and hourly usage
+usage <- rep(0,a_length+(a_length*24))
+for (i in 1:a_length) {
+  usage[i] <- appliances$Daily.Usage[i]
+  for(y in 1:24){
+    usage[((i-1)*24)+a_length+y] <- appliances$Hourly.Usage[i]
+  }
+}
+
+# Add matrix with usage
+f.rhs <- matrix(usage, nrow=length(usage), byrow=TRUE)
+
+length(rep(daily_rates$cost, a_length))
 dim(constraints)
+length(c(rep("=", a_length),rep("<=", a_length*24)))
+length(usage)
 
-#f.con <- 
-#f.dir <- 
-#f.rhs <- 
-
-#lp ("min", f.obj, f.con, f.dir, f.rhs)
+# Run lp
+lp ("min", f.obj, f.con, f.dir, f.rhs)
