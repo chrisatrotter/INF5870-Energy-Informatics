@@ -16,7 +16,8 @@ The expected outcome of Assignment 1 includes:
 Assignment 1 is to be performed in groups, where a group can consist of 4 students.
 The evaluation of Assignment 1 will count for 15% of the grade. All students in the same
 group receive the same grade.
-Description of the Assignment
+
+# Description of the Assignment
 Each household has combination of the following appliances. Typical appliances included for
 the purpose of Illustration. In practice, households may have a variety of other appliances.
 
