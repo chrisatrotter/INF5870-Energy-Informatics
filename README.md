@@ -41,7 +41,7 @@ Consumption of shiftable appliances
 
 Typical consumption values refer to [1], [2], with slight variations for different appliances. In
 a residential area, without any intelligent scheduling, the power demand is usually light-tomoderate
-during mornings, higher during evenings and low during nights. Considering this, 2
+during mornings, higher during evenings and low during nights. Considering this,
 we need to assign the time slots in hours as required for the non-shiftable appliances, and
 provide a range of possible time slots for operating the shiftable appliances.
 
