@@ -28,10 +28,11 @@ appliances.length <- length(appliances$Appliances)
 f.obj = rep(daily.rates$cost, appliances.length)
 
 appliances
-number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
+number.of.constraints <- appliances.length + sum(sapply(appliances$timespan, function(x){sum(length(x))}))
 number.of.constraints
 
-
+# Need to generate each constraint row.
+# f.cons = matrix (c(), nrow = number.of.constraints, byrow = TRUE)
 
 
 
