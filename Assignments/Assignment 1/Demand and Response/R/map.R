@@ -19,17 +19,34 @@ appliances <- rbind(appliances, random.appliances[sample(1:nrow(random.appliance
 
 appliances$timespan <- Map(`:`, appliances$Earliest, appliances$Latest)
 
-daily.rates <- data.frame( time.frame, rtp )
-names( daily.rates ) <- c( "time", "cost" )
-
 # Number of appliances
 appliances.length <- length(appliances$Appliances)
 
-f.obj = rep(daily.rates$cost, appliances.length)
+f.obj = rep(rtp, appliances.length)
 
 appliances
-number.of.constraints <- appliances.length + sum(sapply(appliances$timespan, function(x){sum(length(x))}))
+number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
 number.of.constraints
+
+daily.usage.constraint <- sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )})
+daily.usage.constraint
+
+hourly.usage.constraint <- sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) )})
+
+#hourly.usage.constraint <- subset(hourly.usage.constraint, !is.null(hourly.usage.constraint))
+
+#hourly.usage.constraint <- hourly.usage.constraint[!is.null(hourly.usage.constraint)]
+
+hourly.usage.constraint <- Filter(function(x) !is.null(x), hourly.usage.constraint)
+hourly.usage.constraint
+
+#hourly.usage.constraint <- sapply( daily.usage.constraint, function(x){ mapply(x, FUN=function(y)
+#  if( y == 1 )
+#    if(which(y == 1)%%length(time.frame) == 0)
+#      rep(c(0,1), times = c(23, 1))
+#    else rep(c(0,1,0), times = c(which(y == 1)%%length(time.frame)-1), which(y == 1)%%length(time.frame), length(time.frame)-which(y == 1)%%length(time.frame)+1 ) ) ) } )
+#hourly.usage.constraint
+
 
 # Need to generate each constraint row.
 # f.cons = matrix (c(), nrow = number.of.constraints, byrow = TRUE)
