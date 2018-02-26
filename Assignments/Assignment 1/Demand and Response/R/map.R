@@ -24,32 +24,22 @@ appliances.length <- length(appliances$Appliances)
 
 f.obj = rep(rtp, appliances.length)
 
-appliances
+#appliances
 number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
-number.of.constraints
+#number.of.constraints
 
-daily.usage.constraint <- sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )})
-daily.usage.constraint
+daily.usage.constraint <- unlist(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )}))
+daily.usage.constraint <- split(daily.usage.constraint, ceiling(seq_along(daily.usage.constraint)/24))
+#daily.usage.constraint
 
-hourly.usage.constraint <- sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) )})
+hourly.usage.constraint <- unlist(sapply(appliances$timespan, function(x){unlist(lapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) ))}))
+hourly.usage.constraint <- split(hourly.usage.constraint, ceiling(seq_along(hourly.usage.constraint)/24))
 
-#hourly.usage.constraint <- subset(hourly.usage.constraint, !is.null(hourly.usage.constraint))
+all.constraints <- c(daily.usage.constraint, hourly.usage.constraint)
+#all.constraints
 
-#hourly.usage.constraint <- hourly.usage.constraint[!is.null(hourly.usage.constraint)]
+f.cons = matrix(c(all.constraints, nrow = number.of.constraints+appliances.length, byrow=TRUE))
 
-hourly.usage.constraint <- Filter(function(x) !is.null(x), hourly.usage.constraint)
-hourly.usage.constraint
-
-#hourly.usage.constraint <- sapply( daily.usage.constraint, function(x){ mapply(x, FUN=function(y)
-#  if( y == 1 )
-#    if(which(y == 1)%%length(time.frame) == 0)
-#      rep(c(0,1), times = c(23, 1))
-#    else rep(c(0,1,0), times = c(which(y == 1)%%length(time.frame)-1), which(y == 1)%%length(time.frame), length(time.frame)-which(y == 1)%%length(time.frame)+1 ) ) ) } )
-#hourly.usage.constraint
-
-
-# Need to generate each constraint row.
-# f.cons = matrix (c(), nrow = number.of.constraints, byrow = TRUE)
 
 
 
