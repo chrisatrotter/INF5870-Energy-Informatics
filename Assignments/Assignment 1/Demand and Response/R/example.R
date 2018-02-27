@@ -24,3 +24,7 @@ f.rhs <- c(9.9, 5.0, 3.0, 3.0, 3.0, 3.0, 1.5, 1.5, 1.5, 1.5)
 
 
 lp("min", f.obj, f.con, f.dir, f.rhs)
+
+
+detach(package:lpSolve)
+#detach(package:lpSolveAPI)

@@ -18,7 +18,7 @@ peak.hour <- c(17:20)
 rtp <- c(runif(16, min=0.1, max=0.5), runif(4, min=0.5, max=1.0), runif(4, min=0.1, max=0.5))
 
 appliances <- read.csv( paste(directory, appliances_file, sep="") )
-random.appliances <- read.csv( paste(directory, random_appliances_file, sep="") )
+#random.appliances <- read.csv( paste(directory, random_appliances_file, sep="") )
 #appliances <- rbind(appliances, random.appliances[sample(1:nrow(random.appliances), round(runif(1, min=1, max=nrow(random.appliances))), replace = FALSE),])
 
 appliances$timespan <- Map(`:`, appliances$Earliest, appliances$Latest)
@@ -33,19 +33,42 @@ daily.usage.constraint <- unlist(sapply(appliances$timespan, function(x){mapply(
 daily.usage.constraint <- split(daily.usage.constraint, ceiling(seq_along(daily.usage.constraint)/24))
 
 hourly.usage.constraint <- unlist(sapply(appliances$timespan, function(x){unlist(lapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) ))}))
-hourly.usage.constraint <- split(hourly.usage.constraint, ceiling(seq_along(hourly.usage.constraint)/24))
+test1 <- c(unlist(sapply(appliances$timespan, function(x){length(x)*length(time.frame)})))
+test1
 
-all.constraints <- c(unlist(daily.usage.constraint), unlist(hourly.usage.constraint))
+test3 <- split(hourly.usage.constraint, rep(hourly.usage.constraint, test1))
+test3
+
+test2 <- hourly.usage.constraint[0:test1[1]]
+test2 <- split(test2, ceiling(seq_along(test2)/24))
+test2
+
+#hourly.usage.constraint
+#hourly.usage.constraint <- split(hourly.usage.constraint, sample(rep(hourly.usage.constraint, test2)))
+#test2
+#hourly.usage.constraint
+#test2 <- c(unlist(sapply(appliances$timespan, function(x){length(x)*length(time.frame)})))
+#hourly.usage.constraint <- split(hourly.usage.constraint, factor(test2), lex.order = FALSE)
+
+#hourly.usage.constraint <- split(hourly.usage.constraint, ceiling(seq_along(hourly.usage.constraint)/24))
+#colnames(hourly.usage.constraint) <- appliances$Appliances
+hourly.usage.constraint
+
+#colnames(daily.usage.constraint) <- appliances$Appliances
+daily.usage.constraint
+
+#hourly.usage.constraint <- split(hourly.usage.constraint, sample(rep(hourly.usage.constraint, sapply(appliances$timespan, function(x){length(x)*length(time.frame)}))))
+#hourly.usage.constraint
+
 
 
 f.obj <- c(rep(rtp, appliances.length ))
-
-#f.con <- matrix(c(daily.usage.constraint, hourly.usage.constraint), ncol = appliances.length*length(time.frame), nrow = appliances.length+number.of.constraints, byrow = TRUE)
+f.con <- matrix(c(daily.usage.constraint, hourly.usage.constraint), ncol = appliances.length*length(time.frame), nrow = appliances.length+number.of.constraints, byrow = TRUE)
 
 #f.con <- matrix(c(all.constraints), nrow = number.of.constraints+appliances.length, byrow = TRUE)
 f.dir <- c(rep("=", appliances.length), rep("<=", number.of.constraints))
 
-f.rhs <- c(appliances$Daily.Usage, unlist(mapply(function(x, y){rep(x, length(y))}, appliances$Hourly.Usage, appliances$timespan ))), nrow = appliances.length+number.of.constraints, byrow = TRUE)
+f.rhs <- c(appliances$Daily.Usage, unlist(mapply(function(x, y){rep(x, length(y))}, appliances$Hourly.Usage, appliances$timespan )))
 
 my_lp <- data.frame(f.obj, f.con, f.dir, f.rhs)
 my_lp
