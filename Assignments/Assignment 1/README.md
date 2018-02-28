@@ -10,8 +10,8 @@ Python/Java/R/Matlab/etc.), generation and discussion of results, as well as pre
 the work in a short report.
 
 The expected outcome of Assignment 1 includes:
- a report
- code pasted in the appendix of the report; or as supplementary material
+- a report
+- code pasted in the appendix of the report; or as supplementary material
 
 Assignment 1 is to be performed in groups, where a group can consist of 4 students.
 The evaluation of Assignment 1 will count for 15% of the grade. All students in the same
