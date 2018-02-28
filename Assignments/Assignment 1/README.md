@@ -77,22 +77,22 @@ appliances and write a program in order to minimize energy cost in the neighborh
 # Structure and contents of the report to be delivered
 The report for the assignment should include:
 
- Question 1, calculate the minimal energy consumption and explain the main
+- Question 1, calculate the minimal energy consumption and explain the main
 considerations to the developed strategy.
 
- Question 2, the formulation of the demand response as an optimization problem, e.g.,
+-  Question 2, the formulation of the demand response as an optimization problem, e.g.,
 linear programming problem. Please use a figure to show the pricing curve. Please
 explain on how the problem is solved and probably draw the flowchart to illustrate the
 main algorithm(s).
 
- Question 3, the formulation of the demand response as an optimization problem. Please
+-  Question 3, the formulation of the demand response as an optimization problem. Please
 use a figure to show the pricing curve. Please explain how the problem is solved and you
 may draw the flowchart to illustrate the main algorithms.
 
- A short analysis of two different pricing schemes (ToU and RTP) impact on the energy
+- A short analysis of two different pricing schemes (ToU and RTP) impact on the energy
 cost
 
- The code in an Appendix (if not provided separately)
+- The code in an Appendix (if not provided separately)
 
 
 # Delivery of the Assignment
