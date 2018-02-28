@@ -31,11 +31,12 @@ appliances.length <- length(appliances$Appliances)
 #appliances
 number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
 
-daily.usage.constraint <- t(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )}))
+daily.usage.constraint <- t(lapply(appliances$timespan, function(x){matrix(unlist(mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )),ncol = length(time.frame), byrow = TRUE)}))
 #daily.usage.constraint
+#daily.usage.constraint <- do.call(bdiag, daily.usage.constraint)
 #daily.usage.constraint <- 
-daily.usage.constraint
-daily.usage.constraint
+daily.usage.constraint <- do.call(adiag, daily.usage.constraint)
+#daily.usage.constraint
 #daily.usage.constraint <- split(daily.usage.constraint, ceiling(seq_along(daily.usage.constraint)/24))
 #daily.usage.constraint <- diag(daily.usage.constraint)
 #daily.usage.constraint
@@ -45,9 +46,11 @@ hourly.usage.constraint <- t(sapply(appliances$timespan, function(x){mapply( tim
 #hourly.usage.constraint <- do.call(rbind, hourly.usage.constraint)
 hourly.usage.constraint <- sapply(hourly.usage.constraint, function(x){if(is.list(x)) matrix(as.numeric(unlist(x)),ncol = length(time.frame), byrow = TRUE)  else x })
 hourly.usage.constraint <- do.call(adiag, hourly.usage.constraint)
-hourly.usage.constraint
+#hourly.usage.constraint
+
+#f.con <- rbind(daily.usage.constraint, hourly.usage.constraint)
 #hourly.usage.constraint <- matrix(hourly.usage.constraint, nrow = number.of.constraints, ncol = length(time.frame), byrow = TRUE)
-test1 <- appliances.length*length(time.frame)
+#test1 <- appliances.length*length(time.frame)
 
 #hourly.usage.constraint <- lapply(hourly.usage.constraint , function(x) split(x, ceiling(seq_along(x)/length(time.frame))))
 #hourly.usage.constraint <- t(sapply(hourly.usage.constraint, '[', 1:max(sapply(hourly.usage.constraint, length))))
@@ -76,10 +79,10 @@ test1 <- appliances.length*length(time.frame)
 
 #hourly.usage.constraint <- split(hourly.usage.constraint, ceiling(seq_along(hourly.usage.constraint)/24))
 #colnames(hourly.usage.constraint) <- appliances$Appliances
-hourly.usage.constraint
+#hourly.usage.constraint
 
 #colnames(daily.usage.constraint) <- appliances$Appliances
-daily.usage.constraint
+#daily.usage.constraint
 
 #hourly.usage.constraint <- split(hourly.usage.constraint, sample(rep(hourly.usage.constraint, sapply(appliances$timespan, function(x){length(x)*length(time.frame)}))))
 #hourly.usage.constraint
@@ -87,15 +90,19 @@ daily.usage.constraint
 
 
 f.obj <- c(rep(rtp, appliances.length ))
-f.con <- matrix(c(daily.usage.constraint, hourly.usage.constraint), ncol = appliances.length*length(time.frame), nrow = appliances.length+number.of.constraints, byrow = TRUE)
 
+#f.con <- matrix(c(daily.usage.constraint, hourly.usage.constraint), ncol = appliances.length*length(time.frame), nrow = appliances.length+number.of.constraints, byrow = TRUE)
 #f.con <- matrix(c(all.constraints), nrow = number.of.constraints+appliances.length, byrow = TRUE)
+
+f.con <- rbind(daily.usage.constraint, hourly.usage.constraint)
+#f.con
+
 f.dir <- c(rep("=", appliances.length), rep("<=", number.of.constraints))
 
 f.rhs <- c(appliances$Daily.Usage, unlist(mapply(function(x, y){rep(x, length(y))}, appliances$Hourly.Usage, appliances$timespan )))
 
-my_lp <- data.frame(f.obj, f.con, f.dir, f.rhs)
-my_lp
+#my_lp <- data.frame(f.obj, f.con, f.dir, f.rhs)
+#my_lp
 
 lp("min", f.obj, f.con, f.dir, f.rhs)
 
