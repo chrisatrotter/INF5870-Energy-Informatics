@@ -38,15 +38,15 @@ appliances$timespan <- Map(`:`, appliances$Earliest, appliances$Latest)
 appliances.length <- length(appliances$Appliances)
 
 # Number of constraints
-number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
+number.of.constraints <- sum(sapply(appliances$timespan, function(x){ sum(length(x)) }))
 
 # Creating a list of matrices of daily usage constraints to be formatted correctly for LP.
-daily.usage.constraint <- t(lapply(appliances$timespan, function(x){matrix(unlist(mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )),ncol = length(time.frame), byrow = TRUE)}))
+daily.usage.constraint <- t(lapply(appliances$timespan, function(x){ matrix(unlist(mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )),ncol = length(time.frame), byrow = TRUE) }))
 daily.usage.constraint <- do.call(adiag, daily.usage.constraint)
 
 # Create a list of matrices of hourly usage constraints to be formatted correctly for LP.
-hourly.usage.constraint <- t(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) )}))
-hourly.usage.constraint <- sapply(hourly.usage.constraint, function(x){if(is.list(x)) matrix(as.numeric(unlist(x)),ncol = length(time.frame), byrow = TRUE)  else x })
+hourly.usage.constraint <- t(sapply(appliances$timespan, function(x){ mapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y ))) }))
+hourly.usage.constraint <- sapply(hourly.usage.constraint, function(x){ matrix(as.numeric(unlist(x)),ncol = length(time.frame), byrow = TRUE) })
 hourly.usage.constraint <- do.call(adiag, hourly.usage.constraint)
 
 # Structuring the necessary values for LP.
