@@ -101,7 +101,8 @@ Assignment 1 is to be sent to the following email
   Email: yanzhang@ifi.uio.no and hweiminc@ifi.uio.no
 
 Submission form:
-* the submission should be in a ZIP file with naming convention “INF5870-Assignment1 - GroupX.zip", where “X” is the group number.
+* the submission should be in a ZIP file with naming convention
+** “INF5870-Assignment1 - GroupX.zip", where “X” is the group number.
 * Email subject: “[INF5870] Assignment 1 submission by Group X”
 * Firm deadline: 20 March 2018 (whole day included)
 
