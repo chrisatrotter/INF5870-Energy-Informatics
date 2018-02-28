@@ -2,10 +2,12 @@
 
 # Installation of packages
 install.packages('lpSolve')
+install.packages('magic')
 #install.packages('lpSolveAPI')
 
 # Loading of packages
 library(lpSolve)
+library(magic)
 #library(lpSolveAPI)
 
 setwd(getwd())
@@ -29,19 +31,41 @@ appliances.length <- length(appliances$Appliances)
 #appliances
 number.of.constraints <- sum(sapply(appliances$timespan, function(x){sum(length(x))}))
 
-daily.usage.constraint <- unlist(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )}))
-daily.usage.constraint <- split(daily.usage.constraint, ceiling(seq_along(daily.usage.constraint)/24))
+daily.usage.constraint <- t(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) 1 else 0 )}))
+#daily.usage.constraint
+#daily.usage.constraint <- 
+daily.usage.constraint
+daily.usage.constraint
+#daily.usage.constraint <- split(daily.usage.constraint, ceiling(seq_along(daily.usage.constraint)/24))
+#daily.usage.constraint <- diag(daily.usage.constraint)
+#daily.usage.constraint
 
-hourly.usage.constraint <- unlist(sapply(appliances$timespan, function(x){unlist(lapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) ))}))
-test1 <- c(unlist(sapply(appliances$timespan, function(x){length(x)*length(time.frame)})))
-test1
 
-test3 <- split(hourly.usage.constraint, rep(hourly.usage.constraint, test1))
-test3
+hourly.usage.constraint <- t(sapply(appliances$timespan, function(x){mapply( time.frame, FUN=function(y) if( y %in% x ) rep(c(0,1,0), times=c(y-1, 1, length(time.frame)-y )) )}))
+#hourly.usage.constraint <- do.call(rbind, hourly.usage.constraint)
+hourly.usage.constraint <- sapply(hourly.usage.constraint, function(x){if(is.list(x)) matrix(as.numeric(unlist(x)),ncol = length(time.frame), byrow = TRUE)  else x })
+hourly.usage.constraint <- do.call(adiag, hourly.usage.constraint)
+hourly.usage.constraint
+#hourly.usage.constraint <- matrix(hourly.usage.constraint, nrow = number.of.constraints, ncol = length(time.frame), byrow = TRUE)
+test1 <- appliances.length*length(time.frame)
 
-test2 <- hourly.usage.constraint[0:test1[1]]
-test2 <- split(test2, ceiling(seq_along(test2)/24))
-test2
+#hourly.usage.constraint <- lapply(hourly.usage.constraint , function(x) split(x, ceiling(seq_along(x)/length(time.frame))))
+#hourly.usage.constraint <- t(sapply(hourly.usage.constraint, '[', 1:max(sapply(hourly.usage.constraint, length))))
+#hourly.usage.constraint <- do.call(rbind, hourly.usage.constraint)
+#hourly.usage.constraint <- diag(hourly.usage.constraint)
+#hourly.usage.constraint
+#hourly.usage.constraint <- do.call(diag,)
+#hourly.usage.constraint <- do.call(rbind, lapply(hourly.usage.constraint, FUN = function(x) split(x, ceiling(seq_along(x)/length(time.frame)))))
+  
+#test1 <- c(unlist(sapply(appliances$timespan, function(x){length(x)})))
+#test1
+
+#test3 <- split(hourly.usage.constraint, rep(hourly.usage.constraint, test1))
+#test3
+
+#test2 <- hourly.usage.constraint[0:test1[1]]
+#test2 <- split(test2, ceiling(seq_along(test2)/24))
+#test2
 
 #hourly.usage.constraint
 #hourly.usage.constraint <- split(hourly.usage.constraint, sample(rep(hourly.usage.constraint, test2)))
