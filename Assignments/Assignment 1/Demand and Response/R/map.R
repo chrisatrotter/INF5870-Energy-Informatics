@@ -8,7 +8,6 @@ install.packages('magic')
 # Loading of packages
 library(lpSolve)
 library(magic)
-#library(lpSolveAPI)
 
 setwd(getwd())
 directory <- 'data/'
@@ -61,3 +60,4 @@ lp("min", f.obj, f.con, f.dir, f.rhs)
 lp("min", f.obj, f.con, f.dir, f.rhs)$solution
 
 detach(package:lpSolve)
+detach(package:magic)
