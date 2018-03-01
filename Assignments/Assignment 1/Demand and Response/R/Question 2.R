@@ -29,10 +29,17 @@ f.obj = rep(daily_rates$cost, a_length)
 
 # Create a matrix with constraints
 constraints <- matrix(0, a_length+(a_length*24), a_length*24)
+
+# Create list with daily and hourly usage
+usage <- rep(0,a_length+(a_length*24))
+
+# Insert values into constraints and usage
 for(i in 1:a_length) {
+  usage[i] <- appliances$Daily.Usage[i]
   for(y in appliances$Earliest[i]:appliances$Latest[i]) {
     constraints[i, ((i-1)*24)+y] <- 1
     constraints[((i-1)*24)+a_length+y, ((i-1)*24)+y] <- 1
+    usage[((i-1)*24)+a_length+y] <- appliances$Hourly.Usage[i]
   }
 }
 
@@ -41,15 +48,6 @@ f.con <- constraints
 
 # Add operator
 f.dir <- c(rep("=", a_length),rep("<=", a_length*24))
-
-# Create list with daily and hourly usage
-usage <- rep(0,a_length+(a_length*24))
-for (i in 1:a_length) {
-  usage[i] <- appliances$Daily.Usage[i]
-  for(y in 1:24){
-    usage[((i-1)*24)+a_length+y] <- appliances$Hourly.Usage[i]
-  }
-}
 
 # Add matrix with usage
 f.rhs <- matrix(usage, nrow=length(usage), byrow=TRUE)
