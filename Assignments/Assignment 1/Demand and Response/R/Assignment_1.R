@@ -1,3 +1,7 @@
+install("lpSolve")
+install("ggplot2")
+install("gridExtra")
+
 # Question 1
 library(lpSolve)
 library(ggplot2)
