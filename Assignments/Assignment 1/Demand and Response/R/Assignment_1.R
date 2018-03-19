@@ -1,7 +1,8 @@
 # Installation of packages
-install.packages('lpSolve')
-install.packages('ggplot2')
-install.packages('gridExtra')
+packages <- c("lpSolve", "ggplot2", "gridExtra")
+if (length(setdiff(packages, rownames(installed.packages())))){
+  install.packages(setdiff(packages, rownames(installed.packages())))
+}
 
 # Loading of packages
 library(lpSolve)
@@ -87,6 +88,11 @@ plot.rtp <- ggplot(aes(x=c(1:24), y=RTP), data = daily.rates) +
 
 # Plot both price schemes
 grid.arrange(plot.tou, plot.rtp, nrow = 1)
+
+# Detach packages
+detach(package:lpSolve)
+detach(package:ggplot2)
+detach(package:gridExtra)
 
 # Print results
 print (results)

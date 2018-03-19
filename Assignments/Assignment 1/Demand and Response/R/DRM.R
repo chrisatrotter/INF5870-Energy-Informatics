@@ -1,7 +1,3 @@
-# Question 2
-
-library(lpSolve)
-
 # Demand Respons Management
 DRM <- function(daily.rates, appliances){
   # Number of appliances
@@ -26,13 +22,13 @@ DRM <- function(daily.rates, appliances){
   # Add price matrix
   f.obj = rep(daily.rates, a.length)
   
-  # Add matrix with constraints
+  # Add constraints matrix
   f.con <- constraints
   
-  # Add operator
+  # Add operators
   f.dir <- c(rep("=", a.length),rep("<=", a.length*24))
   
-  # Add matrix with usage
+  # Add usage matrix
   f.rhs <- matrix(usage, nrow=length(usage), byrow=TRUE)
   
   # Run lp
