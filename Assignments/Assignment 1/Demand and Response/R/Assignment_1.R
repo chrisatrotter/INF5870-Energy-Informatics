@@ -1,8 +1,9 @@
-install("lpSolve")
-install("ggplot2")
-install("gridExtra")
+# Installation of packages
+install.packages('lpSolve')
+install.packages('ggplot2')
+install.packages('gridExtra')
 
-# Question 1
+# Loading of packages
 library(lpSolve)
 library(ggplot2)
 library(gridExtra)
