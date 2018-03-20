@@ -1,28 +1,64 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{soul, amsmath, listings, pdfpages}
-\usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
+\documentclass[
+11pt, % The default document font size, options: 10pt, 11pt, 12pt
+%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
+english, % ngerman for German
+singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+%draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
+%nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
+%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+%toctotoc, % Uncomment to add the main table of contents to the table of contents
+parskip, % Uncomment to add space between paragraphs
+%nohyperref, % Uncomment to not load the hyperref package
+headsepline, % Uncomment to get a line under the header
+%sectioninoneline, % Uncomment to place the section title next to the number on one line
+%consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
+]{report} % The class file specifying the document structure
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage{mathpazo} % Use the Palatino font by default
+
+\usepackage[backend=biber,style=numeric,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+
+\addbibresource{References.bib} % The filename of the bibliography
+
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.5cm, % Inner margin
+	outer=2.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{definition}[theorem]{Defintion}
 
-\lstset{language=Python}          % Set your language (you can change the language for each code-block optionally)
-
-\usepackage[backend=biber,style=numeric,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
-
-\addbibresource{References.bib} % The filename of the bibliography
-
-\title{INF5870 - First Mandatory Assignment}
+\title{INF5870 - Assignment 1}
 \author{Zahra G. Yndestad \\ Khalil Abuawad \\ Marius E. G. Andresen \\ Christopher A. Trotter}
 \date{February 2017}
 
 \begin{document}
 
-\maketitle
+\input{title.tex}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\tableofcontents % Prints the main table of contents
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+\newpage
 
 \section{Question 1}
 	Since the question can derive multiple examples that lead to the same optimal minimum, depending on the assumptions made, we have decided to give a time frame for when these shiftable appliances can run and we shall attempt to cover all possible cases. Since all of the mentioned appliances for the home are shiftable, then providing examples of different setup times and deadlines would be redundant. We will rather assume that the total runtime of each appliance is less than 20 hours. Giving us that each appliance can be completed within the off-peak hours. Also, in the assignment we are provided the daily cost of these various appliances which differs from non-shiftable appliances, for example: the light bulb. Allowing us to suggest any time span that meets the daily consumption.  As a condition, each of the appliances has to have their runtime outside the peak hours to achieve the optimal minimum. Any example which provides the optimal minimum will have to respect this condition, regardless of the strategy. We will provide a general definition of a strategy, then discuss what is a reasonable strategy.
@@ -46,10 +82,8 @@
 
 	For our solution of a strategy in Question 1, we have used Linear Programming, LP, solver in R to determine our strategy. In a realistic application, this would provide us with the strongly reasonable strategy of distributing the applications based on the hourly consumption to meet the daily consumption. Since we are to provide our own examples and define our own assumptions, we can conclude that our resulting strategy is a hybrid between strongly and weakly strategies.
 
-\newpage
-
 	\section{Question 2 and 3}
-	Since both question 2 and 3 from the assignment have almost the same requirements it seemed sensible to cover both of them under the same section. The comparative analysis of question 3 has been done in a separate section. To begin with, we shall explain the algorithm of our solution and then provide a flow diagram showing the algorithm.
+	Since both question 2 and 3 from the assignment have almost the same requirements it seemed sensible to cover both of them under the same subsection. The comparative analysis of question 3 has been done in a separate subsection. To begin with, we shall explain the algorithm of our solution and then provide a flow diagram showing the algorithm.
 
 	%The formulation of the demand response as an optimization problem, e.g., linear programming problem. Please use a figure to show the pricing curve. Please explain on how the problem is solved and probably draw the flowchart to illustrate the main algorithm(s).\\
 
@@ -76,14 +110,16 @@
 %	At the start of the program the pricing schemes ToU and RTP are created, and then the program reads the .csv data file. This data file contains a list of appliances and their daily usage, hourly usage, earliest and latest time of use. This data set is supposed to reflect the fundamental appliances in a standard household. We also have a list of random appliances, similar to previous mentioned list, which is supposed to show what some households in given neighbourhood could possibly contain.
 
 	\subsection{Generation of data set}
-	After reading the data file, the program will continue by generating a data set that consists of both shiftable and non-shiftable appliances, and even append some random appliances which in our case are only shiftable. To differentiate between shiftable and non-shiftable we have given that if the hourly consumption multiplied with the total time run is equivalent to the daily usage, then it is shiftable. In the case of non-shiftable it is greater than the daily usage.
+	After reading the data file, the program will continue by generating a data set that consists of both shiftable and non-shiftable appliances, and even append some random appliances which in our case most are shiftable. To differentiate between shiftable and non-shiftable we have given that if the hourly consumption multiplied with the total time run is equivalent to the daily usage, then it is shiftable. In the case of non-shiftable it is greater than the daily usage.
 
 
 	\subsection{Making the matrices}
-	To be able to use the LP-solver, we have to format the input such that we can format the daily and hourly usage constraints with the given pricing scheme. As part of the formatting it required us to generate a matrix which was provided information from the data set. With the pricing scheme and this matrix we were able to generate an instance of the LP-solver which in returned the optimal minimum cost.
+	To be able to use the LP-solver, we had to format the input such that we can format the daily and hourly usage constraints with the given pricing scheme. As part of the formatting it required us to generate a matrix which had information from the data set. With the pricing scheme and this matrix we were able to generate an instance of the LP-solver which returned the optimal minimum cost.
 
 	\subsection{Pricing Curve}
     Below is shown the two different pricing schemes which determined the pricing curve for question 1, 2 and 3.
+    Often real-time pricing is given beforehand, but in the assignment we simulate this pricing scheme by an arbitrary selections of values within off-peak and peak hours. That is why real-time pricing will change between each execution of the program.
+
     \begin{figure}[ht]
     \includegraphics[scale=0.3]{pricing_schemes.png}
     \centering
@@ -99,9 +135,6 @@
     \centering
     \end{figure}
 
-
-
-
 \newpage
 
     \section{Pricing scheme comparative analysis}
@@ -116,6 +149,12 @@
         As we can recall, ToU has a set period where the consumer is aware of the pricing of electricity and this is usually known well in advance of the period. It is an attempt to forecast the supply by adjusting the price of peak and off-peak periods. As this is an improvement of \emph{fixed rates (FR)}, it is still important to assess the potential marginal cost loss when a forecast is done far ahead of time. In contrary, RTP does not require a forecast rather  it reflects the price based on the supply to circumvent extreme peaks in periods of high demand and low supply, but also provides an opportunity to acquire a significant amount of the supply for a small sum in periods of low demand and high supply. The overall goal of RTP is to equalise the difference of the supply and demand.
 
         Already from introducing these two pricing schemes we can assess that RTP is the most efficient method to optimize the marginal cost, but this comes with a certain amount of risk. Since the price is reflected based on the supply, it has a volatility applied to the scheme which can be viewed as a high risk and high reward factor. Where as with a fixed rate, it is ensured that the price will remain the same regardless of the supply. ToU is a scheme which compliments these two, but is required to be adjusted in such a way to balance the trade-off between risk, reward, safety and security. If ToU rates are set much in advance, and fixed over the hours, these rates miss the majority of the potential gain as measured by the variance index shown in \cite{RTPvsToU}. This indicated that there is a substantial difference in efficiency between even the best ToU design and RTP. Meaning that their is required further work to balance the trade-offs mentioned to find a suitable pricing scheme. As of now, where real-time pricing is available it seems worth the effort to make adjustments from going all the way to RTP. Giving that a hybrid pricing scheme which is between the best ToU design and RTP is required to balance the marginal cost optimization with the given trade-offs.
+
+    \section{How to run the program}
+        As a prerequisite, we assume that you have both R and R-studio installed on the computer. When this is in order, then it is just to open the project "Demand and Response.Rproj" in R-studio. Within the project open Assignment\_1.R and run the full script.
+
+    \subsection{Results}
+        Calculating the minimal energy consumption is provided as part of the running of the program. It has been summarized at the end by printing it out in the terminal of R-studio. That is why it has not been provided throughout the discussion, within this report.
 
     \printbibliography[heading=bibintoc]
 \end{document}
