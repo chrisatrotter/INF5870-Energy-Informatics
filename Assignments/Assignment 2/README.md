@@ -86,6 +86,7 @@ Variables (columns):
 - FORECAST: your forecast values
 
 # Tasks
+## Question 1
 We focus on the relationship between wind power generation and wind speed. Based on the training data from 1.1.2012
 to 31.10.2013 in the file TrainData.csv, you apply machine learning techniques to find the relationship between wind
 power generation and wind speed. Here, we only use the wind speed at 10m above ground level. Note that, through this
@@ -99,6 +100,7 @@ for the neural networks model. Finally, you evaluate the prediction accuracy. Yo
 true wind power measurements (in the file Solution.csv). Please use the error metric RMSE to evaluate and compare the
 prediction accuracy among the machine learning approaches.
 
+## Question 2
 Wind power generation may be not only dependent on wind speed, it may be also related to wind direction, temperature,
 and pressure. In this question, we focus on the relationship between wind power generation and two weather parameters
 (i.e., wind speed and wind direction). First, you may have noticed the zonal component U10 and the meridional component
@@ -110,6 +112,7 @@ production is saved in the file ForecastTemplate2.csv. You compare the predicted
 (in the file Solution.csv) by using the metric RMSE. You may also compare the prediction accuracy with the linear regression
 where only wind speed is considered. 
 
+## Question 3
 In some situations, we may not always have weather data, e.g., wind speed data, at the wind farm location. In this question,
 we will make wind power production forecasting when we only have wind power generation data; and we do not have other data.
 That is, in the training data file TrainData.csv, the following columns should be removed: U10, V10, WS10, U100, V100, WS100.
