@@ -39,3 +39,5 @@ rmse <- function(error)
 errorNN <- powerPredictionNN - solution_data$POWER
 
 rmse(errorNN)
+
+write.table(powerPredictionNN, "ForecastTemplate1-NN.csv", sep=",", col.names="Power Prediction", row.names = F)
