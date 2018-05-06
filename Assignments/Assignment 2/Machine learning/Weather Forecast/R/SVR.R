@@ -20,9 +20,7 @@ weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file,
 set.seed(333)
 # Training of the model (Supported Vector Regression)
 model_svr <- train(POWER ~ WS10, data = training_data, method = "svmLinear",
-                   trControl = trainControl(method = "repeatedcv", number = 5, summaryFunction = twoClassSummary),
-                   preProcess = c("center", "scale"),
-                   tuneLength = 10)
+                   trControl = trainControl(method = "cv", savePredictions = TRUE))
 
 model_svr
 # Predict new data by the trained model
@@ -39,7 +37,7 @@ rmse(solution_data$POWER - prediction_svr)
 
 
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_svr),
-            paste(directory, forecast, forecast_model[3], sep=""),
+            paste(directory, forecast, forecast_model[4], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
