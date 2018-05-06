@@ -18,15 +18,15 @@ solution_data <- read.csv( paste(directory, solution_data_file, sep=""))
 weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file, sep=""))
 
 set.seed(333)
-# Training of the model (K-nearest neighbors)
-model_knn <- train(POWER ~ WS10, data = training_data, method = "knn",
-                   trControl = trainControl(method = "repeatedcv", number = 10, repeats = 3),
+# Training of the model (Supported Vector Regression)
+model_svr <- train(POWER ~ WS10, data = training_data, method = "svmLinear",
+                   trControl = trainControl(method = "repeatedcv", number = 5, summaryFunction = twoClassSummary),
                    preProcess = c("center", "scale"),
                    tuneLength = 10)
 
-model_knn
+model_svr
 # Predict new data by the trained model
-prediction_knn <- predict(model_knn, newdata = weather_forecast_input)
+prediction_svr <- predict(model_svr, newdata = weather_forecast_input)
 
 # root mean square error function
 rmse <- function(error)
@@ -35,11 +35,11 @@ rmse <- function(error)
 }
 
 # calculate error
-rmse(solution_data$POWER - prediction_knn)
+rmse(solution_data$POWER - prediction_svr)
 
 
-write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_knn),
-            paste(directory, forecast, forecast_model[1], sep=""),
+write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_svr),
+            paste(directory, forecast, forecast_model[3], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
