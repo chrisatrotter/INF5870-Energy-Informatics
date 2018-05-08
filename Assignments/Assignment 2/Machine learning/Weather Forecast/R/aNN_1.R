@@ -37,6 +37,9 @@ rmse <- function(error)
 # calculate error
 errorNN <- powerPredictionNN - solution_data$POWER
 
-rmse(errorNN)
+rmse(errorNN) 
+# 0.2167467022 with 3 layers 5, 6, 7 neurons all data 15336 ish
+# 0.2308222655 with 3 layers 5, 6, 7 neurons and 3000 data
+# 0.2309943184 with 1 layer with 10 neurons and 3000 data
 
 write.table(powerPredictionNN, "ForecastTemplate1-NN.csv", sep=",", col.names="Power Prediction", row.names = F)
