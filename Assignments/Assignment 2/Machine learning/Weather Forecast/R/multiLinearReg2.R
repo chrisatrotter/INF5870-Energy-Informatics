@@ -1,3 +1,8 @@
+# Installation of packages
+packages <- c("caret")
+if (length(setdiff(packages, rownames(installed.packages())))){
+  install.packages(setdiff(packages, rownames(installed.packages())))
+}
 
 library(caret)
 
