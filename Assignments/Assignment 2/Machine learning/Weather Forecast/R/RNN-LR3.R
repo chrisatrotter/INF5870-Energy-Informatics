@@ -40,8 +40,10 @@ Ypred <- predictr(model, Xpred)
 
 rmse(solution_data$POWER - Ypred[661:1380,])
 
-lr_training <- training_data[14701:15000,]
-lr_testing <- training_data[15001:15336,]
+#
+
+lr_training <- training_data[1:15000,]
+lr_testing <- training_data[15001:15720,]
 # linear regression with power
 set.seed(333)
 # Training of the model (Supported Vector Regression)
