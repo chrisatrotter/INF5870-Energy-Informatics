@@ -1,6 +1,7 @@
 #install.packages("caret", dependencies = TRUE)
 
 library(caret)
+library(scales)
 
 # Read in data set with applliances
 setwd(getwd())
@@ -16,6 +17,11 @@ weather_forecast_input_file <- 'WeatherForecastInput.csv'
 training_data <- read.csv( paste(directory, training_data_file, sep=""))
 solution_data <- read.csv( paste(directory, solution_data_file, sep=""))
 weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file, sep=""))
+
+# Formatting date from factor to date type.
+#solution_data$TIMESTAMP <- as.Date((solution_data$TIMESTAMP), format = "%Y%m%d %H:%M")
+#training_data$TIMESTAMP <- as.Date((training_data$TIMESTAMP), format = "%Y%m%d %H:%M")
+#weather_forecast_input$TIMESTAMP <- as.Date((weather_forecast_input$TIMESTAMP), format = "%Y%m%d %H:%M")
 
 set.seed(333)
 # Training of the model (Supported Vector Regression)
@@ -34,6 +40,16 @@ rmse <- function(error)
 # calculate error
 rmse(solution_data$POWER - prediction_lr)
 
+prediction_plot <- data.frame(predictions = prediction_lr,
+                              powers = solution_data$POWER,
+                              month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+ 
+ggplot(prediction_plot, aes(x = month)) +
+  geom_line(aes(y = powers), na.rm = TRUE, color = "coral", size = 1) +
+  geom_line(aes(y = predictions), na.rm = TRUE, color = "chartreuse", size = 1) +
+  scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+  xlab("November 2013") +
+  ylab("Power")
 
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_lr),
             paste(directory, forecast, forecast_model[3], sep=""),
