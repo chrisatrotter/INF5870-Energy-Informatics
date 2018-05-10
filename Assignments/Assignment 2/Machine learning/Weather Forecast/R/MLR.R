@@ -22,10 +22,6 @@ WDIR <- (270-atan2(training_data$V10,training_data$U10)*180/pi)%% 360
 # append column wdir (wind direction)
 training_data <- cbind(training_data, WDIR)
 
-control <- trainControl(method="repeatedcv", 
-                        number=10, 
-                        repeats=6)
-
 set.seed(333)
 # Training of the model (multi linear Regression)
 model_lr <- train(POWER ~ WS10 + WDIR, data = training_data, method = "lm")
