@@ -1,12 +1,17 @@
-#install.packages("caret", dependencies = TRUE)
+#Installation of packages
+packages <- c("caret", "rnn")
+if (length(setdiff(packages, rownames(installed.packages())))){
+  install.packages(setdiff(packages, rownames(installed.packages())))
+}
 
+# Loading of packages
 library(caret)
 library(rnn)
 
 # Read in data set with applliances
 setwd(getwd())
 
-directory <- '../data/'
+directory <- './data/'
 forecast <- 'predicted forecast/'
 forecast_model <- c('ForecastTemplate1-kNN.csv', 'ForecastTemplate1-aNN.csv', 'ForecastTemplate1-LR.csv', 'ForecastTemplate1-SVR.csv', 'ForecastTemplate3-LR.csv', 'ForecastTemplate3-RNN.csv')
 solution_data_file <- 'Solution.csv'
