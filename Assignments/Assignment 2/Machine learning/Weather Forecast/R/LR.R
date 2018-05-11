@@ -31,6 +31,12 @@ set.seed(333)
 model_lr <- train(POWER ~ WS10, data = training_data, method = "lm")
 
 model_lr
+
+# The plot of the linear regression function (y = ax + b).
+#ggplot(data = training_data, aes(x = WS10, y = POWER)) +
+#  geom_point(color = "gray27") +
+#  geom_abline(slope = coef(model_lr$finalModel)[2], intercept = coef(model_lr$finalModel)[1], color = "red", size = 2)
+  
 # Predict new data by the trained model
 prediction_lr <- predict(model_lr, newdata = weather_forecast_input)
 
