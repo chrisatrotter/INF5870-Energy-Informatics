@@ -52,6 +52,7 @@ ggplot(prediction_plot, aes(x = month)) +
   geom_line(aes(y = powers), na.rm = TRUE, color = "coral", size = 1) +
   geom_line(aes(y = predictions), na.rm = TRUE, color = "chartreuse", size = 1) +
   scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+  scale_y_continuous(minlim = 0) +
   xlab("November 2013") +
   ylab("Power")
 

@@ -1,10 +1,14 @@
 # Installation of packages
-packages <- c("caret")
+packages <- c("caret", "doMC")
 if (length(setdiff(packages, rownames(installed.packages())))){
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
 library(caret)
+library(doMC)
+
+registerDoMC(cores = 4)
+
 
 # Read in data set with applliances
 setwd(getwd())
@@ -24,10 +28,8 @@ weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file,
 set.seed(333)
 # Training of the model (K-nearest neighbors)
 model_ann <- train(POWER ~ WS10, data = training_data, method = "neuralnet",
-                   tuneGrid = data.frame(layer1 = 2:3, layer2 = 0, layer3 = 0),
-                   rep = 3,
+                   tuneGrid = data.frame(layer1 = 2:6, layer2 = 0, layer3 = 0),
                    threshold = 0.1,
-                   stepmax = 1e+05,
                    preProc = c("center", "scale"))
 
 #model_ann
