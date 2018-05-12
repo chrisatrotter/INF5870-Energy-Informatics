@@ -42,8 +42,6 @@ rmse <- function(error)
   sqrt(mean(error^2))
 }
 
-plot(model_ann)
-
 # calculate error
 rmse(solution_data$POWER - prediction_ann)
 
