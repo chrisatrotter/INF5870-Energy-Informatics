@@ -23,11 +23,12 @@ weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file,
 
 set.seed(333)
 # Training of the model (K-nearest neighbors)
-model_ann <- train(POWER ~ WS10, data = training_data, method = "nnet",
-                   maxit = 1000,
-                   tuneGrid = expand.grid(.decay = c(0.5, 0.1), .size = c(5, 6, 7)),
-                   trace = FALSE,
-                   lineout = 1)
+model_ann <- train(POWER ~ WS10, data = training_data, method = "neuralnet",
+                   tuneGrid = data.frame(layer1 = 2:3, layer2 = 0, layer3 = 0),
+                   rep = 3,
+                   threshold = 0.1,
+                   stepmax = 1e+05,
+                   preProc = c("center", "scale"))
 
 #model_ann
 # Predict new data by the trained model
@@ -39,9 +40,17 @@ rmse <- function(error)
   sqrt(mean(error^2))
 }
 
+plot(model_ann)
+
 # calculate error
 rmse(solution_data$POWER - prediction_ann)
 
+# The plot of the artificial neural network function (regression).
+#ggplot() +
+#  geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
+#  geom_point(aes(x = weather_forecast_input$WS10, y = prediction_ann), color = 'red', size = 2)
+
+# The plot of the prediction and actual power usage for November 2013.
 prediction_plot <- data.frame(predictions = prediction_ann,
                               powers = solution_data$POWER,
                               month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))

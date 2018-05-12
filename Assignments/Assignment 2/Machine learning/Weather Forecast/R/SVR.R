@@ -24,9 +24,8 @@ weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file,
 set.seed(333)
 # Training of the model (Supported Vector Regression)
 model_svr <- train(POWER ~ WS10, data = training_data, method = "svmLinear",
-                   trControl = trainControl(method = "cv", savePredictions = TRUE))
+                   trControl = trainControl(method = "cv", number = 10, savePredictions = TRUE))
 
-model_svr
 # Predict new data by the trained model
 prediction_svr <- predict(model_svr, newdata = weather_forecast_input)
 
@@ -39,6 +38,12 @@ rmse <- function(error)
 # calculate error
 rmse(solution_data$POWER - prediction_svr)
 
+# The plot of the support vector regression function ( Yi - (aXi + b) <= e and (aXi + b) - Yi <= e).
+#ggplot() +
+#  geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
+#  geom_point(aes(x = weather_forecast_input$WS10, y = prediction_svr), color = 'red', size = 2)
+
+# The plot of the prediction and actual power usage for November 2013.
 prediction_plot <- data.frame(predictions = prediction_svr,
                               powers = solution_data$POWER,
                               month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
