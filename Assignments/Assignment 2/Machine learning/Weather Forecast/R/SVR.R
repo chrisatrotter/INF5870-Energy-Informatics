@@ -31,8 +31,7 @@ model_svr <- train(POWER ~ WS10, data = training_data, method = "svmRadial",
 prediction_svr <- predict(model_svr, newdata = weather_forecast_input)
 
 # Root mean square error function
-rmse <- function(error)
-{
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 
@@ -69,4 +68,4 @@ plot_prediction <- function(){
 }
 
 #plot_function()
-#plot_prediction()
+plot_prediction()

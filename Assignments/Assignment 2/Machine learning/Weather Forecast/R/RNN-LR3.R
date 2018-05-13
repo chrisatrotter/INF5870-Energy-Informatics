@@ -46,7 +46,7 @@ Ypred <- predictr(model, Xpred)
 # Calculate error
 rmse(solution_data$POWER - Ypred[661:1380,])
 
-# LR training
+# LR
 lr_training <- training_data[1:15000,]
 lr_testing <- training_data[15001:15720,]
 

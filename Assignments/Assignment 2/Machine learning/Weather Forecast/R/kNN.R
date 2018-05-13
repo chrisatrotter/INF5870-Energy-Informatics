@@ -35,8 +35,7 @@ model_knn
 prediction_knn <- predict(model_knn, newdata = weather_forecast_input)
 
 # Root mean square error function
-rmse <- function(error)
-{
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 

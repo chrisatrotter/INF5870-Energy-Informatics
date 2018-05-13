@@ -47,8 +47,7 @@ model_lr
 prediction_lr <- predict(model_lr, newdata = weather_forecast_input)
 
 # root mean square error function
-rmse <- function(error)
-{
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 

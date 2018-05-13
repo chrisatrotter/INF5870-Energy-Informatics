@@ -30,8 +30,7 @@ model_lr <- train(POWER ~ WS10, data = training_data, method = "lm")
 prediction_lr <- predict(model_lr, newdata = weather_forecast_input)
 
 # Root mean square error function
-rmse <- function(error)
-{
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 
