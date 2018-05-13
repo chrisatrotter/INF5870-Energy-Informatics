@@ -31,7 +31,6 @@ model_ann <- train(POWER ~ WS10, data = training_data, method = "neuralnet",
                    threshold = 0.1,
                    preProc = c("center", "scale"))
 
-#model_ann
 # Predict new data by the trained model
 prediction_ann <- predict(model_ann, newdata = weather_forecast_input)
 
