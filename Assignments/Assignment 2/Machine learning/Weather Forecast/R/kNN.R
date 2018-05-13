@@ -34,34 +34,43 @@ model_knn
 # Predict new data by the trained model
 prediction_knn <- predict(model_knn, newdata = weather_forecast_input)
 
-# root mean square error function
+# Root mean square error function
 rmse <- function(error)
 {
   sqrt(mean(error^2))
 }
 
-# calculate error
+# Calculate error
 rmse(solution_data$POWER - prediction_knn)
 
-# The plot of the k nearest neighbor function (euclidean distance).
-#ggplot() +
-#  geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
-#  geom_point(aes(x = weather_forecast_input$WS10, y = prediction_knn), color = 'red', size = 2)
-
-# The plot of the prediction and actual power usage for November 2013.
-#prediction_plot <- data.frame(predictions = prediction_knn,
-#                              powers = solution_data$POWER,
-#                              month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
-
-#ggplot(prediction_plot, aes(x = month)) +
-#  geom_line(aes(y = powers), na.rm = TRUE, color = "coral", size = 1) +
-#  geom_line(aes(y = predictions), na.rm = TRUE, color = "chartreuse", size = 1) +
-#  scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
-#  xlab("November 2013") +
-#  ylab("Power")
-
+# Write results to file
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_knn),
             paste(directory, forecast, forecast_model[1], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
+
+# Plot functions
+# The plot of the k nearest neighbor function (euclidean distance).
+plot_function <- function(){
+  ggplot() +
+    geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
+    geom_point(aes(x = weather_forecast_input$WS10, y = prediction_knn), color = 'red', size = 2)
+}
+
+# The plot of the prediction and actual power usage for November 2013.
+plot_prediction <- function(){
+  prediction_plot <- data.frame(predictions = prediction_knn,
+                                powers = solution_data$POWER,
+                                month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+  
+  ggplot(prediction_plot, aes(x = month)) +
+    geom_line(aes(y = powers), na.rm = TRUE, color = "gray27", size = 1) +
+    geom_line(aes(y = predictions), na.rm = TRUE, color = "red", size = 1) +
+    scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+    xlab("November 2013") +
+    ylab("Power")
+}
+
+#plot_function()
+#plot_prediction()

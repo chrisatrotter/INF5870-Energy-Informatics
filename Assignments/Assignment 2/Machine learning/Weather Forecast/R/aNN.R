@@ -1,13 +1,13 @@
 # Installation of packages
-packages <- c("caret", "doMC")
+packages <- c("caret", "neuralnet")
 if (length(setdiff(packages, rownames(installed.packages())))){
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
+# Loading of packages
 library(caret)
-library(doMC)
+library(neuralnet)
 
-registerDoMC(cores = 4)
 
 # Read in data set with applliances
 setwd(getwd())
@@ -34,35 +34,42 @@ model_ann <- train(POWER ~ WS10, data = training_data, method = "neuralnet",
 # Predict new data by the trained model
 prediction_ann <- predict(model_ann, newdata = weather_forecast_input)
 
-# root mean square error function
-rmse <- function(error)
-{
+# Root mean square error function
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 
-# calculate error
+# Calculate error
 rmse(solution_data$POWER - prediction_ann)
 
-# The plot of the artificial neural network function (regression).
-#ggplot() +
-#  geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
-#  geom_point(aes(x = weather_forecast_input$WS10, y = prediction_ann), color = 'red', size = 2)
-
-# The plot of the prediction and actual power usage for November 2013.
-#prediction_plot <- data.frame(predictions = prediction_ann,
-#                              powers = solution_data$POWER,
-#                              month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
-
-#ggplot(prediction_plot, aes(x = month)) +
-#  geom_line(aes(y = powers), na.rm = TRUE, color = "coral", size = 1) +
-#  geom_line(aes(y = predictions), na.rm = TRUE, color = "chartreuse", size = 1) +
-#  scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
-#  xlab("November 2013") +
-#  ylab("Power")
-
-
+# Write results to file
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_ann),
             paste(directory, forecast, forecast_model[2], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
+
+# Plot functions
+# The plot of the artificial neural network function (regression).
+plot_function <- function(){
+  ggplot() +
+    geom_point(data = training_data, aes(x = WS10, y = POWER), color = "gray27") +
+    geom_point(aes(x = weather_forecast_input$WS10, y = prediction_ann), color = 'red', size = 2)
+}
+
+# The plot of the prediction and actual power usage for November 2013.
+plot_prediction <- function(){
+  prediction_plot <- data.frame(predictions = prediction_ann,
+                                powers = solution_data$POWER,
+                                month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+  
+  ggplot(prediction_plot, aes(x = month)) +
+    geom_line(aes(y = powers), na.rm = TRUE, color = "gray27", size = 1) +
+    geom_line(aes(y = predictions), na.rm = TRUE, color = "red", size = 1) +
+    scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+    xlab("November 2013") +
+    ylab("Power")
+}
+
+#plot_function()
+#plot_prediction()
