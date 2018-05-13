@@ -43,13 +43,14 @@ Xpred <- array(Xpred, dim = c(NROW(Xpred), NCOL(Xpred), 1))
 
 Ypred <- predictr(model, Xpred)
 
+# Calculate error
 rmse(solution_data$POWER - Ypred[661:1380,])
 
-#
-
+# LR training
 lr_training <- training_data[1:15000,]
 lr_testing <- training_data[15001:15720,]
-# linear regression with power
+
+# Linear regression with power
 set.seed(333)
 # Training of the model (Supported Vector Regression)
 model_lr <- train(POWER ~ POWER, data = lr_training, method = "lm")
@@ -57,17 +58,35 @@ model_lr <- train(POWER ~ POWER, data = lr_training, method = "lm")
 # Predict new data by the trained model
 prediction_lr <- predict(model_lr, newdata = lr_testing)
 
-# root mean square error function
-rmse <- function(error)
-{
+# Root mean square error function
+rmse <- function(error){
   sqrt(mean(error^2))
 }
 
-# calculate error
+# Calculate error
 rmse(solution_data$POWER - prediction_lr)
 
+# Write results to file
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_lr),
             paste(directory, forecast, forecast_model[3], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
+
+# Plot predictions
+plot_prediction <- function(){
+  prediction_plot <- data.frame(predictionslr = prediction_lr,
+                                Ypred = Ypred[661:1380,],
+                                powers = solution_data$POWER,
+                                month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+  
+  ggplot(prediction_plot, aes(x = month)) +
+    geom_line(aes(y = powers), na.rm = TRUE, color = "grey27", size = 1, alpha=1) +
+    geom_line(aes(y = predictionslr), na.rm = TRUE, color = "blue", size = 1, alpha=1) +
+    geom_line(aes(y = Ypred), na.rm = TRUE, color = "red", size = 1, alpha=1) +
+    scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+    xlab("November 2013") +
+    ylab("Power")
+}
+
+#plot_prediction()

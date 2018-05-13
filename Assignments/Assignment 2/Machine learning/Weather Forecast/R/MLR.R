@@ -4,12 +4,13 @@ if (length(setdiff(packages, rownames(installed.packages())))){
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
+# Loading of packages
 library(caret)
 
 # Read in data set with applliances
 setwd(getwd())
 
-directory <- '../data/'
+directory <- './data/'
 forecast <- 'predicted forecast/'
 forecast_model <- c('ForecastTemplate1-kNN.csv', 'ForecastTemplate1-aNN.csv', 'ForecastTemplate1-LR.csv', 'ForecastTemplate1-SVR.csv', 'ForecastTemplate2.csv')
 solution_data_file <- 'Solution.csv'
@@ -37,7 +38,13 @@ WDIR <- (270-atan2(weather_forecast_input$V10,weather_forecast_input$U10)*180/pi
 weather_forecast_input <- cbind(weather_forecast_input, WDIR)
 
 # Predict new data by the trained model
-prediction_lr <- predict(model_lr, newdata = weather_forecast_input )
+prediction_mlr <- predict(model_lr, newdata = weather_forecast_input )
+
+model_lr <- train(POWER ~ WS10, data = training_data, method = "lm")
+
+model_lr
+# Predict new data by the trained model
+prediction_lr <- predict(model_lr, newdata = weather_forecast_input)
 
 # root mean square error function
 rmse <- function(error)
@@ -46,11 +53,29 @@ rmse <- function(error)
 }
 
 # calculate error
-rmse(solution_data$POWER - prediction_lr)
+rmse(solution_data$POWER - prediction_mlr)
 
-# 
+# Write results to file
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_lr),
             paste(directory, forecast, forecast_model[5], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
+
+# Prediction plot
+plot_prediction <- function(){
+  prediction_plot <- data.frame(predictionslr = prediction_lr,
+                                predictionsmlr = prediction_mlr,
+                                powers = solution_data$POWER,
+                                month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+  
+  ggplot(prediction_plot, aes(x = month)) +
+    geom_line(aes(y = powers), na.rm = TRUE, color = "gray27", size = 1, alpha=1) +
+    geom_line(aes(y = predictionslr), na.rm = TRUE, color = "blue", size = 1, alpha=1) +
+    geom_line(aes(y = predictionsmlr), na.rm = TRUE, color = "red", size = 1, alpha=1) +
+    scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+    xlab("November 2013") +
+    ylab("Power")
+}
+
+#plot_prediction()
