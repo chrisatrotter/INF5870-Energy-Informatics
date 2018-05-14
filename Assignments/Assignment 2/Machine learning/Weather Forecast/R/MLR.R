@@ -65,19 +65,17 @@ write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_lr),
             row.names = F)
 
 # Prediction plot
-plot_prediction <- function(){
-  prediction_plot <- data.frame(predictionslr = prediction_lr,
-                                predictionsmlr = prediction_mlr,
-                                powers = solution_data$POWER,
-                                month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
-  
-  ggplot(prediction_plot, aes(x = month)) +
-    geom_line(aes(y = powers), na.rm = TRUE, color = "gray27", size = 1, alpha=1) +
-    geom_line(aes(y = predictionslr), na.rm = TRUE, color = "blue", size = 1, alpha=1) +
-    geom_line(aes(y = predictionsmlr), na.rm = TRUE, color = "red", size = 1, alpha=1) +
-    scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
-    xlab("November 2013") +
-    ylab("Power")
-}
+prediction_plot <- data.frame(predictionslr = prediction_lr,
+                              predictionsmlr = prediction_mlr,
+                              powers = solution_data$POWER,
+                              month = as.POSIXct(solution_data$TIMESTAMP, format = "%Y%m%d %H:%M", origin = "1970-01-01"))
+
+ggplot(prediction_plot, aes(x = month)) +
+  geom_line(aes(y = powers), na.rm = TRUE, color = "red", size = 1, alpha=1) +
+  geom_line(aes(y = predictionslr), na.rm = TRUE, color = "green4", size = 1, alpha=1) +
+  geom_line(aes(y = predictionsmlr), na.rm = TRUE, color = "Black", size = 1, alpha=1) +
+  scale_x_datetime(date_breaks = "4 day", date_labels = "%b %d") +
+  xlab("November 2013") +
+  ylab("Power")
 
 #plot_prediction()
