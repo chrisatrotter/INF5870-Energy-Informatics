@@ -23,14 +23,17 @@ solution_data <- read.csv( paste(directory, solution_data_file, sep=""))
 weather_forecast_input <- read.csv(paste(directory, weather_forecast_input_file, sep=""))
 
 # calculate the wind direction
-WDIR <- (270-atan2(training_data$V10,training_data$U10)*180/pi)%% 360 
+WDIR <- (270-atan2(training_data$V10,training_data$U10)*180/pi)%% 360
 
 # append column wdir (wind direction)
 training_data <- cbind(training_data, WDIR)
 
 set.seed(333)
 # Training of the model (multi linear Regression)
-model_lr <- train(POWER ~ WS10 + WDIR, data = training_data, method = "lm")
+model_mlr <- train(POWER ~ WS10 + WDIR, data = training_data, method = "lm")
+
+model_mlr$coefnames
+model_mlr$finalModel
 
 WDIR <- (270-atan2(weather_forecast_input$V10,weather_forecast_input$U10)*180/pi)%% 360 
 
@@ -42,7 +45,7 @@ prediction_mlr <- predict(model_lr, newdata = weather_forecast_input )
 
 model_lr <- train(POWER ~ WS10, data = training_data, method = "lm")
 
-model_lr
+
 # Predict new data by the trained model
 prediction_lr <- predict(model_lr, newdata = weather_forecast_input)
 

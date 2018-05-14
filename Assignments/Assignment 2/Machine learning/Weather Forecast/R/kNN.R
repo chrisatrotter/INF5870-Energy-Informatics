@@ -72,4 +72,4 @@ plot_prediction <- function(){
 }
 
 #plot_function()
-#plot_prediction()
+plot_prediction()
