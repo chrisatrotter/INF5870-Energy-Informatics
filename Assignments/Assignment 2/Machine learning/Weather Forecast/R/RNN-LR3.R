@@ -34,6 +34,7 @@ X <- Power[(TotalTrainLength - ActualTrainLength) : (TotalTrainLength -1)]
 X <- array(X, dim=c(NROW(X), NCOL(X), 1))
 
 Y <- Power[(TotalTrainLength - ActualTrainLength +1) : (TotalTrainLength)]
+Y
 Y <- array(Y, dim=c(NROW(Y), NCOL(Y), 1))
 
 model <- trainr(Y = Y, X = X, learningrate = 0.01, hidden_dim = 10, numepochs = 150)
