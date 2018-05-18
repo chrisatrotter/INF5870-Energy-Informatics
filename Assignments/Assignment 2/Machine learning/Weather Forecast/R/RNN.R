@@ -13,7 +13,7 @@ setwd(getwd())
 
 directory <- './data/'
 forecast <- 'predicted forecast/'
-forecast_model <- c('ForecastTemplate1-kNN.csv', 'ForecastTemplate1-aNN.csv', 'ForecastTemplate1-LR.csv', 'ForecastTemplate1-SVR.csv', 'ForecastTemplate3-LR.csv', 'ForecastTemplate3-RNN.csv')
+forecast_model <- c('ForecastTemplate1-kNN.csv', 'ForecastTemplate1-aNN.csv', 'ForecastTemplate1-LR.csv', 'ForecastTemplate1-SVR.csv', 'ForecastTemplate2.csv', 'ForecastTemplate3-LR.csv', 'ForecastTemplate3-RNN.csv')
 solution_data_file <- 'Solution.csv'
 training_data_file <- 'TrainData.csv'
 weather_forecast_input_file <- 'WeatherForecastInput.csv'
@@ -35,30 +35,36 @@ Power <- training_data$POWER
 set.seed(333)
 
 # Training-testing sets
-train_data<- 14300:15360
-test <- 15361:16080
+train_lr_data <- training_data[1:15360,]
+train_rnn_data <- training_data[14360:15360,]
+test <- training_data[15361:16080,]
 
-#X <- Power[sample(x = train_data, size = 1000)]
-X <- Power[train_data]
+X <- train_rnn_data$POWER
 X <- array(X, dim=c(NROW(X), NCOL(X), 1))
 
-#Y <- Power[sample(x = train_data, size = 1000)]
-Y <- Power[train_data]
+Y <- train_rnn_data$POWER
 Y <- array(Y, dim=c(NROW(Y), NCOL(Y), 1))
 
-#model <- elman(Y = Y, X = X, size = 8, learnFuncParams=c(0.1), maxit = 100)
+#Training of the model (Recurrent Neural Networks)
 model_rnn <- trainr(Y = Y, X = X, learningrate = 0.01, hidden_dim = 10, numepochs = 150)
 
-test_data <- array(Power[test], dim = c(NROW(Power[test]), NCOL(Power[test]), 1))
-
-# Predicted values
-prediction_rnn <- predictr(model_rnn, test_data)
-
-# Training of the model (Supported Vector Regression)
-model_lr <- train(POWER ~ POWER, data = train_data[1:15360,], method = "lm")
+test_data <- array(test$POWER, dim = c(NROW(test$POWER), NCOL(test$POWER), 1))
 
 # Predict new data by the trained model
-prediction_lr <- predict(model_lr, newdata = POWER[test])
+prediction_rnn <- predictr(model_rnn, test_data)
+
+
+train_lr_data <- data.frame(train_lr_data, train_lr_data$POWER)
+colnames(train_lr_data) <- c("TIMESTAMP", "POWER_X", "POWER")
+
+# Training of the model (Linear Regression)
+model_lr <- train(POWER ~ POWER_X, data = train_lr_data, method = "lm")
+
+test <- data.frame(test, test$POWER)
+colnames(test) <- c("TIMESTAMP", "POWER_X", "POWER")
+
+# Predict new data by the trained model
+prediction_lr <- predict(model_lr, newdata = test)
 
 # Calculate LR error
 rmse(solution_data$POWER - prediction_lr)
@@ -69,6 +75,13 @@ rmse(solution_data$POWER - prediction_rnn)
 # Write results to file
 write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_lr),
             paste(directory, forecast, forecast_model[6], sep=""),
+            sep=",",
+            col.names= c("TIMESTAMP", "FORECAST"),
+            row.names = F)
+
+# Write results to file
+write.table(data.frame(weather_forecast_input$TIMESTAMP, prediction_rnn),
+            paste(directory, forecast, forecast_model[7], sep=""),
             sep=",",
             col.names= c("TIMESTAMP", "FORECAST"),
             row.names = F)
